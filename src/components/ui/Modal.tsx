@@ -5,8 +5,9 @@ interface IProps {
   isOpen: boolean;
   closeModal: () => void;
   children: ReactNode;
+  title: string;
 }
-export default function Modal({ isOpen, closeModal, children }: IProps) {
+export default function Modal({ isOpen, closeModal, children, title }: IProps) {
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
@@ -39,7 +40,7 @@ export default function Modal({ isOpen, closeModal, children }: IProps) {
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
-                    ADD A NEW PRODUCT
+                    {title}
                   </Dialog.Title>
 
                   {children}

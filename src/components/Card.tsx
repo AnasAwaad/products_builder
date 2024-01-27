@@ -1,4 +1,4 @@
-import { IProduct } from "../interfaces";
+import { ICategory, IProduct } from "../interfaces";
 import { txtSlicer } from "../utils/functions";
 import CircleColor from "./CircleColor";
 import Image from "./Image";
@@ -6,10 +6,43 @@ import Button from "./ui/Button";
 
 interface IProps {
   product: IProduct;
-  openModal: () => void;
+  products: IProduct[];
+  openEditModal: () => void;
+  productIdx: number;
+  setSelected: (ele: ICategory) => void;
+  setProductToEdit: (ele: IProduct) => void;
+  setProducts: (ele: IProduct[]) => void;
+  setProduct: (ele: IProduct) => void;
+  setProductColor: (ele: string[]) => void;
+  setProductIdx: (ele: number) => void;
 }
-const Card = ({ product, openModal }: IProps) => {
-  const { category, imageURL, price, title, description, colors } = product;
+const Card = ({
+  product,
+  openEditModal,
+  products,
+  productIdx,
+  setSelected,
+  setProducts,
+  setProductColor,
+  setProductToEdit,
+  setProductIdx,
+}: IProps) => {
+  const { category, imageURL, price, title, description, colors, id } = product;
+
+  /* --------- HANDLE ---------- */
+  const onEditHandler = () => {
+    setProductColor(product.colors);
+    setProductToEdit(product);
+    setSelected(product.category);
+    openEditModal();
+    setProductIdx(productIdx);
+  };
+
+  const onRemoveHandler = () => {
+    if (products.find((item) => item.id == id)) {
+      setProducts(products.filter((item) => item.id != id));
+    }
+  };
 
   return (
     <div className="border p-2 max-w-[410px] mx-auto">
@@ -45,11 +78,16 @@ const Card = ({ product, openModal }: IProps) => {
       <div className="flex items-center justify-between space-x-3">
         <Button
           className="bg-indigo-700 hover:bg-indigo-900"
-          onClick={openModal}
+          onClick={onEditHandler}
         >
           Edit
         </Button>
-        <Button className="bg-[#c2344d] hover:bg-red-700">Remove</Button>
+        <Button
+          className="bg-[#c2344d] hover:bg-red-700"
+          onClick={onRemoveHandler}
+        >
+          Remove
+        </Button>
       </div>
     </div>
   );
