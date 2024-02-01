@@ -1,4 +1,4 @@
-import { IError } from "../interfaces";
+import { IError, IProduct } from '../interfaces';
 
 /**
  * Validates a product object for required fields and constraints.
@@ -16,29 +16,28 @@ import { IError } from "../interfaces";
  * @property {string} price - Error message for the price field.
  */
 
-export const errorValidation = (formInput: IError) => {
-  const { title, description, imageURL, price } = formInput;
+export const errorValidation = (formInput: IProduct) => {
+  const { title, description, imageURL, price, colors } = formInput;
 
   const error: IError = {
-    title: "",
-    description: "",
-    imageURL: "",
-    price: "",
+    title: '',
+    description: '',
+    imageURL: '',
+    price: '',
+    color: '',
   };
+
   const isImageURL = /^(ftp|http|https):\/\/[^ "]+$/.test(imageURL);
   if (!title.trim() || title.length < 10 || title.length > 80) {
-    error.title = "Product title must be between 10 and 80 characters!";
+    error.title = 'Product title must be between 10 and 80 characters!';
   }
-  if (
-    !description.trim() ||
-    description.length < 10 ||
-    description.length > 900
-  )
-    error.description =
-      "Product description must be between 10 and 900 characters!";
-  if (!isImageURL) error.imageURL = "Valid image URL is required";
-  if (!price.trim() || isNaN(Number(price)))
-    error.price = "Valid price is required!";
+  if (!description.trim() || description.length < 10 || description.length > 900) error.description = 'Product description must be between 10 and 900 characters!';
+  if (!isImageURL) error.imageURL = 'Valid image URL is required';
+  if (!price.trim() || isNaN(Number(price))) error.price = 'Valid price is required!';
+
+  if (!colors.length) {
+    error.color = 'color is required!';
+  }
 
   return error;
 };

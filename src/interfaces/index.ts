@@ -1,4 +1,4 @@
-import { ProductNameTypes } from "../types";
+import { ProductNameTypes } from '../types';
 
 export interface IProduct {
   id?: string;
@@ -31,4 +31,5 @@ export interface IError {
   description: string;
   imageURL: string;
   price: string;
+  color: string;
 }
